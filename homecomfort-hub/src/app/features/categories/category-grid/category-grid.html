@@ -1,0 +1,35 @@
+<section class="category-grid-section">
+  <div class="container">
+    <h2>Shop by Category</h2>
+    <p class="subtitle">Browse our collection</p>
+<a routerLink="/categories/add" class="add-btn">+ Add Category</a>
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading categories...</p>
+    </div>
+
+    <div class="error" *ngIf="error && !isLoading">
+      <p>{{ error }}</p>
+    </div>
+
+    <div class="categories" *ngIf="!isLoading && !error">
+      <div class="category-card" *ngFor="let category of categories; let i = index" [ngClass]="{ 'highlight': i === 0 }">
+        <div class="category-image">
+          <img [src]="category.image" [alt]="category.name" />
+          <div class="badge" *ngIf="i === 0">
+            <span>Trending</span>
+          </div>
+        </div>
+
+        <div class="category-info">
+          <h3>{{ category.name }}</h3>
+          <p class="description">{{ category.description }}</p>
+          <p class="product-count">
+            {{ category.productCount }} 
+            {{ category.productCount === 1 ? 'Product' : 'Products' }}
+          </p>
+          <button [routerLink]="['/categories', category.id]" class="explore-btn">Explore</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

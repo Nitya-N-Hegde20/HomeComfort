@@ -1,0 +1,64 @@
+<div class="product-detail-section">
+  <div class="container">
+    
+    <!-- Loading -->
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading product...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error" *ngIf="error && !isLoading">
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Product -->
+    <div class="product-detail" *ngIf="product && !isLoading">
+      
+      <!-- Left: Images -->
+      <div class="images-section">
+        <div class="main-image">
+          <img [src]="product.image" [alt]="product.name" />
+        </div>
+        <div class="thumbnail-images">
+          <img 
+            [src]="product.image" 
+            (click)="selectImage(0)"
+            [ngClass]="{ 'active': selectedImage === 0 }"
+            class="thumbnail"
+          />
+        </div>
+      </div>
+
+      <!-- Right: Details -->
+      <div class="details-section">
+        <h1>{{ product.name }}</h1>
+        <p class="category">{{ product.category }}</p>
+        
+        <div class="rating">
+          <span class="stars">★★★★★</span>
+          <span class="reviews">({{ product.reviewSummary }} customer reviews)</span>
+        </div>
+
+        <div class="price-section">
+          <p class="price">₹{{ product.price | currency:'INR' }}</p>
+        </div>
+
+        <p class="description">{{ product.description}}</p>
+
+
+        <!-- Affiliate Links -->
+        <div class="affiliate-links">
+          <h3>Buy on:</h3>
+          <a [href]="product.amazonLink" target="_blank" class="amazon-link" *ngIf="product.amazonLink">
+            🛒 Amazon
+          </a>
+          <a [href]="product.flipkartLink" target="_blank" class="flipkart-link" *ngIf="product.flipkartLink">
+            🛍️ Flipkart
+          </a>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+</div>

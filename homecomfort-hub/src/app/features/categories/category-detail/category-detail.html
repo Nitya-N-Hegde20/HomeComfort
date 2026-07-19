@@ -1,0 +1,41 @@
+<div class="category-detail-section">
+  <div class="container">
+    
+    <!-- Loading -->
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading category...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error" *ngIf="error && !isLoading">
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Category -->
+    <div *ngIf="category && !isLoading">
+      <div class="category-header">
+        <img [src]="category.image" [alt]="category.name" class="category-banner" />
+        <div class="category-info">
+          <h1>{{ category.name }}</h1>
+          <p>{{ category.description }}</p>
+          <p class="product-count">{{ products.length }} products</p>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid">
+        <div class="product-card" *ngFor="let product of products">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+          </div>
+          <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p class="price">₹{{ product.price }}</p>
+            <p class="rating">★★★★★ ({{ product.reviewSummary }})</p>
+            <button [routerLink]="['/products', product.id]" class="view-btn">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

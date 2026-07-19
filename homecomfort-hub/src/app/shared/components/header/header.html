@@ -1,0 +1,37 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <!-- Logo -->
+      <div class="logo">
+        <h1>
+          <a routerLink="/">HomeComfort Hub</a>
+        </h1>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Home
+        </a>
+        <a routerLink="/products" routerLinkActive="active">Products</a>
+        <a routerLink="/categories" routerLinkActive="active">Categories</a>
+        <a routerLink="/blog" routerLinkActive="active">Blog</a>
+        <a routerLink="/about" routerLinkActive="active">About</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button class="menu-toggle" (click)="toggleMenu()">
+        ☰
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-nav" *ngIf="isMenuOpen">
+      <a routerLink="/" (click)="isMenuOpen = false">Home</a>
+      <a routerLink="/products" (click)="isMenuOpen = false">Products</a>
+      <a routerLink="/categories" (click)="isMenuOpen = false">Categories</a>
+      <a routerLink="/blog" (click)="isMenuOpen = false">Blog</a>
+      <a routerLink="/about" (click)="isMenuOpen = false">About</a>
+    </nav>
+  </div>
+</header>
