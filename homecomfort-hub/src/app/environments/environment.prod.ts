@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-api-name.azurewebsites.net/api'
+  apiUrl: 'https://homecomforthub-dcfpexdreagmbjbv.centralindia-01.azurewebsites.net/api'
 };
