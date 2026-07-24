@@ -302,3 +302,26 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
+
+.search-container{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.search-btn{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  color:white;
+  background:linear-gradient(135deg,#1840f2 0%,#7155f1 100%);
+  transition:0.3s;
+}
+
+.search-btn:hover{
+  background:linear-gradient(135deg,#4861d3 0%,#a157eb 100%);
+}

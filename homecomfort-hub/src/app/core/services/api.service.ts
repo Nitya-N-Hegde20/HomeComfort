@@ -17,6 +17,12 @@ export class ApiService {
     return this.http.get<Product[]>(`${this.apiUrl}/products`);
   }
 
+searchProducts(term: string): Observable<Product[]> {
+  return this.http.get<Product[]>(
+    `${this.apiUrl}/products/search?term=${encodeURIComponent(term)}`
+  );
+}
+
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
   }

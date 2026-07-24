@@ -14,7 +14,14 @@ import { TruncatePipe } from '../../../shared/components/TruncatePipe';
   styleUrl: './productlist.css',
 })
 export class Productlist implements OnInit {
+ 
+  // Original data
   allProducts: Product[] = [];
+
+  // Results returned from backend search
+  searchResults: Product[] = [];
+
+  // Final products shown after filters
   filteredProducts: Product[] = [];
 
   isLoading = true;
@@ -41,11 +48,12 @@ export class Productlist implements OnInit {
     this.apiService.getProducts().subscribe({
       next: (data) => {
         this.allProducts = data;
+        this.searchResults = [...data];
         this.extractCategories();
         this.applyFilters();
         this.isLoading = false;
       },
-      error: (err) => {
+      error: () => {
         this.error = 'Failed to load products';
         this.isLoading = false;
       }
@@ -56,17 +64,46 @@ export class Productlist implements OnInit {
     const names = this.allProducts
       .map(p => p.category?.name)
       .filter((name): name is string => !!name);
+
     this.categories = [...new Set(names)];
   }
 
-  applyFilters() {
-    this.filteredProducts = this.allProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           product.description.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesCategory = !this.selectedCategory || product.category?.name === this.selectedCategory;
-      const matchesPrice = product.price >= this.minPrice && product.price <= this.maxPrice;
+  onSearch() {
 
-      return matchesSearch && matchesCategory && matchesPrice;
+    const term = this.searchTerm.trim();
+
+    // Empty search = show all products
+    if (!term) {
+      this.searchResults = [...this.allProducts];
+      this.applyFilters();
+      return;
+    }
+
+    this.apiService.searchProducts(term).subscribe({
+      next: (products) => {
+        this.searchResults = products;
+        this.applyFilters();
+      },
+      error: () => {
+        this.searchResults = [];
+        this.applyFilters();
+      }
+    });
+  }
+
+  applyFilters() {
+
+    this.filteredProducts = this.searchResults.filter(product => {
+
+      const matchesCategory =
+        !this.selectedCategory ||
+        product.category?.name === this.selectedCategory;
+
+      const matchesPrice =
+        product.price >= this.minPrice &&
+        product.price <= this.maxPrice;
+
+      return matchesCategory && matchesPrice;
     });
 
     this.currentPage = 1;
@@ -74,17 +111,20 @@ export class Productlist implements OnInit {
   }
 
   calculatePagination() {
-    this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(
+      this.filteredProducts.length / this.itemsPerPage
+    );
   }
 
   get paginatedProducts(): Product[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredProducts.slice(startIndex, endIndex);
-  }
 
-  onSearchChange() {
-    this.applyFilters();
+    const startIndex =
+      (this.currentPage - 1) * this.itemsPerPage;
+
+    return this.filteredProducts.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
   }
 
   onCategoryChange() {
@@ -114,10 +154,14 @@ export class Productlist implements OnInit {
   }
 
   clearFilters() {
+
     this.searchTerm = '';
     this.selectedCategory = '';
     this.minPrice = 0;
     this.maxPrice = 100000;
+
+    this.searchResults = [...this.allProducts];
+
     this.applyFilters();
   }
 }

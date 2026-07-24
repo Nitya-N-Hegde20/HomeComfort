@@ -1,7 +1,9 @@
 <section class="products-section">
   <div class="container">
     <h1>Our Products</h1>
-<a routerLink="/products/add" class="add-btn">+ Add Product</a>
+
+    <a routerLink="/products/add" class="add-btn">+ Add Product</a>
+
     <!-- Loading state -->
     <div class="loading" *ngIf="isLoading">
       <p>Loading products...</p>
@@ -14,119 +16,223 @@
 
     <!-- Main content -->
     <div class="products-container" *ngIf="!isLoading && !error">
-      
-      <!-- Sidebar filters -->
+
+      <!-- Sidebar -->
       <aside class="sidebar">
+
+        <!-- Search -->
         <div class="filter-section">
           <h3>Search</h3>
-          <input 
-            type="text" 
-            placeholder="Search products..." 
-            [(ngModel)]="searchTerm"
-            (input)="onSearchChange()"
-            class="search-input"
-          />
+
+          <div class="search-container">
+
+            <input
+              type="text"
+              placeholder="Search products..."
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="onSearch()"
+              class="search-input"
+            />
+
+            <button
+              class="search-btn"
+              (click)="onSearch()">
+              Search
+            </button>
+
+          </div>
         </div>
 
+        <!-- Category -->
         <div class="filter-section">
           <h3>Category</h3>
-          <select 
+
+          <select
             [(ngModel)]="selectedCategory"
             (change)="onCategoryChange()"
-            class="filter-select"
-          >
+            class="filter-select">
+
             <option value="">All Categories</option>
-            <option *ngFor="let cat of categories" [value]="cat">
+
+            <option
+              *ngFor="let cat of categories"
+              [value]="cat">
+
               {{ cat }}
+
             </option>
+
           </select>
         </div>
 
+        <!-- Price -->
         <div class="filter-section">
+
           <h3>Price Range</h3>
+
           <div class="price-inputs">
-            <input 
-              type="number" 
-              placeholder="Min" 
+
+            <input
+              type="number"
+              placeholder="Min"
               [(ngModel)]="minPrice"
               (change)="onPriceChange()"
               class="price-input"
             />
-            <input 
-              type="number" 
-              placeholder="Max" 
+
+            <input
+              type="number"
+              placeholder="Max"
               [(ngModel)]="maxPrice"
               (change)="onPriceChange()"
               class="price-input"
             />
+
           </div>
-          <p class="price-display">₹{{ minPrice }} - ₹{{ maxPrice }}</p>
+
+          <p class="price-display">
+            ₹{{ minPrice }} - ₹{{ maxPrice }}
+          </p>
+
         </div>
 
-        <button (click)="clearFilters()" class="clear-btn">Clear Filters</button>
+        <button
+          (click)="clearFilters()"
+          class="clear-btn">
+
+          Clear Filters
+
+        </button>
+
       </aside>
 
-      <!-- Products grid -->
+      <!-- Main -->
       <main class="main-content">
+
         <div class="results-info">
-          <p>Showing {{ paginatedProducts.length }} of {{ filteredProducts.length }} products</p>
+          <p>
+            Showing {{ paginatedProducts.length }}
+            of {{ filteredProducts.length }} products
+          </p>
         </div>
 
-        <!-- Products grid -->
-        <div class="products-grid" *ngIf="paginatedProducts.length > 0">
-          <div class="product-card" *ngFor="let product of paginatedProducts">
+        <!-- Products -->
+        <div
+          class="products-grid"
+          *ngIf="paginatedProducts.length > 0">
+
+          <div
+            class="product-card"
+            *ngFor="let product of paginatedProducts">
+
             <div class="product-image">
-              <img [src]="product.image" [alt]="product.name" />
+              <img
+                [src]="product.image"
+                [alt]="product.name"
+              />
             </div>
+
             <div class="product-info">
+
               <h3>{{ product.name }}</h3>
+
               <p class="rating">★★★★★</p>
-<p class="review-summary" *ngIf="product.reviewSummary">{{ product.reviewSummary | truncate :60}}</p>
-              <p class="price">₹{{ product.price }}</p>
-              <p class="description">{{ product.description  }}</p>
-              <p class="category">{{ product.category?.name }}</p>
-              <button [routerLink]="['/products', product.id]" class="view-btn">View Details</button>
+
+              <p
+                class="review-summary"
+                *ngIf="product.reviewSummary">
+
+                {{ product.reviewSummary | truncate:60 }}
+
+              </p>
+
+              <p class="price">
+                ₹{{ product.price }}
+              </p>
+
+              <p class="description">
+                {{ product.description }}
+              </p>
+
+              <p class="category">
+                {{ product.category?.name }}
+              </p>
+
+              <button
+                [routerLink]="['/products', product.id]"
+                class="view-btn">
+
+                View Details
+
+              </button>
+
             </div>
+
           </div>
+
         </div>
 
-        <!-- No products found -->
-        <div class="no-products" *ngIf="paginatedProducts.length === 0">
-          <p>No products found. Try adjusting your filters.</p>
+        <!-- No Products -->
+        <div
+          class="no-products"
+          *ngIf="paginatedProducts.length === 0">
+
+          <p>
+            No products found.
+          </p>
+
+          <small *ngIf="searchTerm.trim()">
+            If this product doesn't exist, we've been notified and may consider adding it in the future.
+          </small>
+
         </div>
 
         <!-- Pagination -->
-        <div class="pagination" *ngIf="totalPages > 1">
-          <button 
-            (click)="previousPage()" 
+        <div
+          class="pagination"
+          *ngIf="totalPages > 1">
+
+          <button
+            (click)="previousPage()"
             [disabled]="currentPage === 1"
-            class="pagination-btn"
-          >
+            class="pagination-btn">
+
             Previous
+
           </button>
 
           <div class="pagination-numbers">
-           <ng-container *ngFor="let page of [1,2,3,4,5]">
-  <button 
-    *ngIf="page <= totalPages"
-    (click)="goToPage(page)"
-    [ngClass]="{ 'active': page === currentPage }"
-    class="page-num"
-  >
-    {{ page }}
-  </button>
-</ng-container>
+
+            <ng-container *ngFor="let page of [1,2,3,4,5]">
+
+              <button
+                *ngIf="page <= totalPages"
+                (click)="goToPage(page)"
+                [ngClass]="{ 'active': page === currentPage }"
+                class="page-num">
+
+                {{ page }}
+
+              </button>
+
+            </ng-container>
+
           </div>
 
-          <button 
-            (click)="nextPage()" 
+          <button
+            (click)="nextPage()"
             [disabled]="currentPage === totalPages"
-            class="pagination-btn"
-          >
+            class="pagination-btn">
+
             Next
+
           </button>
+
         </div>
+
       </main>
+
     </div>
+
   </div>
 </section>
