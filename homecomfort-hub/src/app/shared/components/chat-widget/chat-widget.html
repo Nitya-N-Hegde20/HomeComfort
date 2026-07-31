@@ -50,7 +50,7 @@
       type="text"
       [(ngModel)]="userInput"
       (keydown)="onEnter($event)"
-      placeholder="e.g. I need a wall clock under ₹500"
+      placeholder="e.g. I need a wall clock "
       [disabled]="isLoading"
     />
     <button (click)="sendMessage()" [disabled]="isLoading">Send</button>
