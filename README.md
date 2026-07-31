@@ -351,13 +351,6 @@ HomeComfortHub/
 ├── ai-service/
 │   └── Python AI service
 │
-├── docs/
-│   └── screenshots/
-│       ├── home-page.png
-│       ├── search-results.png
-│       ├── semantic-search.png
-│       ├── chatbot.png
-│       └── add-product.png
 │
 ├── .gitignore
 └── README.md
