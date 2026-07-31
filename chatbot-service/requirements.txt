@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+openai
+azure-cosmos
+python-dotenv
+requests
+numpy
+azure-servicebus

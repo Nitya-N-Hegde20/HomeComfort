@@ -4,9 +4,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>79c90f1f-bff7-4376-a29d-b78c67bf0e31</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+    <PackageReference Include="MailKit" Version="4.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.17" />
@@ -16,10 +19,6 @@
     </PackageReference>
     <PackageReference Include="Scalar.AspNetCore" Version="2.16.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
