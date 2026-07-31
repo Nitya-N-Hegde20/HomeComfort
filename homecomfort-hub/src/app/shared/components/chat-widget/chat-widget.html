@@ -1,0 +1,58 @@
+<!-- Floating button -->
+<button class="chat-toggle-btn" (click)="toggleChat()">
+  {{ isOpen ? '✕' : '💬' }}
+</button>
+
+<!-- Chat panel -->
+<div class="chat-panel" *ngIf="isOpen">
+  <div class="chat-header">
+    <span>🛒 Product Assistant</span>
+  </div>
+
+  <div class="chat-messages" #messageContainer>
+    <div
+      *ngFor="let msg of messages"
+      [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'bot' }"
+      class="message"
+    >
+      <!-- Text message -->
+      <p *ngIf="msg.text">{{ msg.text }}</p>
+
+      <!-- Product cards -->
+      <div *ngIf="msg.products" class="product-results">
+        <div *ngFor="let product of msg.products" class="chat-product-card">
+          <img [src]="product.image" [alt]="product.name"
+               onerror="this.src='https://placehold.co/60'" />
+          <div class="chat-product-info">
+            <p class="chat-product-name">{{ product.name }}</p>
+            <p class="chat-product-price">₹{{ product.price }}</p>
+            <div class="chat-product-links">
+              <a *ngIf="product.amazonLink" [href]="product.amazonLink"
+                 target="_blank" class="amazon-link">Amazon</a>
+              <a *ngIf="product.flipkartLink" [href]="product.flipkartLink"
+                 target="_blank" class="flipkart-link">Flipkart</a>
+              <a [routerLink]="['/products', product.id]"
+                 class="details-link">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="message bot-msg">
+      <p>Searching...</p>
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      (keydown)="onEnter($event)"
+      placeholder="e.g. I need a wall clock under ₹500"
+      [disabled]="isLoading"
+    />
+    <button (click)="sendMessage()" [disabled]="isLoading">Send</button>
+  </div>
+</div>

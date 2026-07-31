@@ -69,27 +69,40 @@ export class Productlist implements OnInit {
   }
 
   onSearch() {
+  const term = this.searchTerm.trim();
 
-    const term = this.searchTerm.trim();
+  if (!term) {
+    this.searchResults = [...this.allProducts];
+    this.applyFilters();
+    return;
+  }
 
-    // Empty search = show all products
-    if (!term) {
-      this.searchResults = [...this.allProducts];
-      this.applyFilters();
-      return;
-    }
-
-    this.apiService.searchProducts(term).subscribe({
-      next: (products) => {
+  this.apiService.searchProducts(term).subscribe({
+    next: (products) => {
+      if (products.length > 0) {
+        // Regular keyword search found results — use them
         this.searchResults = products;
         this.applyFilters();
-      },
-      error: () => {
-        this.searchResults = [];
-        this.applyFilters();
+      } else {
+        // No keyword match — fall back to semantic/vector search
+        this.apiService.chatSearch(term).subscribe({
+          next: (response) => {
+            this.searchResults = response.matches || [];
+            this.applyFilters();
+          },
+          error: () => {
+            this.searchResults = [];
+            this.applyFilters();
+          }
+        });
       }
-    });
-  }
+    },
+    error: () => {
+      this.searchResults = [];
+      this.applyFilters();
+    }
+  });
+}
 
   applyFilters() {
 

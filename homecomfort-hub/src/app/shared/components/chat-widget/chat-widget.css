@@ -1,0 +1,183 @@
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  z-index: 1000;
+  transition: transform 0.2s;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.chat-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 340px;
+  height: 480px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 14px 16px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  max-width: 90%;
+}
+
+.user-msg {
+  align-self: flex-end;
+  background: #667eea;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px 12px 0 12px;
+  font-size: 14px;
+}
+
+.bot-msg {
+  align-self: flex-start;
+  background: #f3f4f6;
+  color: #1f2937;
+  padding: 8px 12px;
+  border-radius: 12px 12px 12px 0;
+  font-size: 14px;
+}
+
+.bot-msg p {
+  margin: 0;
+}
+
+.product-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+}
+
+.chat-product-card {
+  display: flex;
+  gap: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.chat-product-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.chat-product-info {
+  flex: 1;
+}
+
+.chat-product-name {
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 0 4px;
+}
+
+.chat-product-price {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+
+.chat-product-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chat-product-links a {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.amazon-link {
+  background: #ff9900;
+  color: white;
+}
+
+.flipkart-link {
+  background: #2874f0;
+  color: white;
+}
+
+.details-link {
+  background: #667eea;
+  color: white;
+}
+
+.chat-input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #e5e7eb;
+  gap: 8px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+
+.chat-input-area input:focus {
+  border-color: #667eea;
+}
+
+.chat-input-area button {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.chat-input-area button:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}

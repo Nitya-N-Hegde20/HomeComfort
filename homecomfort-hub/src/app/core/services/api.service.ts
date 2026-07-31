@@ -9,6 +9,8 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
  private apiUrl = environment.apiUrl;
+private chatbotUrl = environment.chatbotUrl;
+
 
   constructor(private http: HttpClient) {}
 
@@ -54,4 +56,9 @@ createProduct(product: Omit<Product, 'id'>): Observable<Product> {
 createCategory(category: Omit<Category, 'id' | 'productCount'>): Observable<Category> {
   return this.http.post<Category>(`${this.apiUrl}/categories`, category);
 }
+
+chatSearch(message: string): Observable<any> {
+  return this.http.post<any>(`${this.chatbotUrl}/chat`, { message });
+}
+
 }
